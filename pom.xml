@@ -129,6 +129,17 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<systemPropertyVariables>
+						<!-- Docker Engine 29 rejette les versions d'API < 1.40 (MinAPIVersion).
+						     Sans cette propriete, Testcontainers ne trouve pas le daemon Docker. -->
+						<api.version>1.44</api.version>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
