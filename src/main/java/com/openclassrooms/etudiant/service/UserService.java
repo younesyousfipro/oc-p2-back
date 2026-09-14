@@ -37,7 +37,15 @@ public class UserService {
         Assert.notNull(login, "Login must not be null");
         Assert.notNull(password, "Password must not be null");
         Optional<User> user = userRepository.findByLogin(login);
-        if (user.isPresent() && passwordEncoder.matches(password, password)) {
+        // task2 - Breakpoint 2
+        //
+        // if (user.isPresent() && passwordEncoder.matches(password, password)) {
+        //
+        // matches() attend le mot de passe tape en 1er argument et le hash stocke en 2e.
+        // Le starter passait deux fois le clair : la comparaison renvoyait toujours false,
+        // quels que soient les identifiants.
+
+        if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
             UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
                     .username(login).build();
             return jwtService.generateToken(userDetails);
