@@ -27,8 +27,20 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    // task2 - Breakpoint 1
+
+    // @PostMapping("/api/login")
+    // public ResponseEntity<?> login(LoginRequestDTO loginRequestDTO) {
+    //     String jwtToken = userService.login(loginRequestDTO.getLogin(), loginRequestDTO.getPassword());
+    //     return ResponseEntity.ok(jwtToken);
+    // }
+    //
+    // Sans @RequestBody, Spring ne deserialise pas le corps JSON : il construit un
+    // LoginRequestDTO vide et poursuit sans erreur.
+    // @Valid enforce @NotBlank ajouté dans LoginRequestDTO
+
     @PostMapping("/api/login")
-    public ResponseEntity<?> login(LoginRequestDTO loginRequestDTO) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
         String jwtToken = userService.login(loginRequestDTO.getLogin(), loginRequestDTO.getPassword());
         return ResponseEntity.ok(jwtToken);
     }
