@@ -36,7 +36,7 @@ public class UserService {
         Assert.notNull(login, "Login must not be null");
         Assert.notNull(password, "Password must not be null");
         Optional<User> user = userRepository.findByLogin(login);
-        // task2 - Breakpoint 2
+        // task2 - Debug 2
         //
         // if (user.isPresent() && passwordEncoder.matches(password, password)) {
         //
@@ -46,7 +46,7 @@ public class UserService {
 
         if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
 
-            // task2 - Breakpoint 3
+            // task2 - Debug 3
             //
             // UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
             //         .username(login).build();

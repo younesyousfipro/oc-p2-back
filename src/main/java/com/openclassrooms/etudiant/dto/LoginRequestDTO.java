@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class LoginRequestDTO {
 
-    // task2 - Breakpoint 1
+    // task2 - Debug 1
     //
     // private String login;
     // private String password;

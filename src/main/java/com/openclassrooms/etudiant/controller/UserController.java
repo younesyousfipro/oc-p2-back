@@ -27,7 +27,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    // task2 - Breakpoint 1
+    // task2 - Debug 1
 
     // @PostMapping("/api/login")
     // public ResponseEntity<?> login(LoginRequestDTO loginRequestDTO) {
