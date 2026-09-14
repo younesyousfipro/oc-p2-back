@@ -37,7 +37,7 @@ public class UserController {
     //
     // Sans @RequestBody, Spring ne deserialise pas le corps JSON : il construit un
     // LoginRequestDTO vide et poursuit sans erreur.
-    // @Valid enforce @NotBlank ajouté dans LoginRequestDTO
+    // @Valid enforce @NotBlank ajoute dans LoginRequestDTO
 
     @PostMapping("/api/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {

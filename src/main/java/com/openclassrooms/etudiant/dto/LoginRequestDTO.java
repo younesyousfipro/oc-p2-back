@@ -12,7 +12,7 @@ public class LoginRequestDTO {
     // private String password;
     //
     // Les @NotBlank manquaient au starter (import orphelin).
-    // @NotBlank oblige à des valeurs non nulles, non vide, et pas uniquement des espaces.
+    // @NotBlank oblige a des valeurs non nulles, non vide, et pas uniquement des espaces.
     // La validation appartient a l'entree du controller (@Valid) qui enforce @NotBlank
     // ============================================
 

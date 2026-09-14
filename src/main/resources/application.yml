@@ -29,3 +29,9 @@ management:
     web:
       exposure:
         include: '*'
+
+# task2 - JWT implementation - le secret est lu depuis .env, meme pattern que les
+# credentials de la base (DB_USER, DB_PASSWORD...). Passer par application.yml plutot
+# que de lire JWT_SECRET directement permet de le surcharger dans les tests.
+jwt:
+  secret: ${JWT_SECRET}
