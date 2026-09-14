@@ -1,6 +1,7 @@
 package com.openclassrooms.etudiant.controller;
 
 import com.openclassrooms.etudiant.dto.LoginRequestDTO;
+import com.openclassrooms.etudiant.dto.LoginResponseDTO;
 import com.openclassrooms.etudiant.dto.RegisterDTO;
 import com.openclassrooms.etudiant.mapper.UserDtoMapper;
 import com.openclassrooms.etudiant.service.UserService;
@@ -27,10 +28,29 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    // task2 - Debug 1
+
+    // @PostMapping("/api/login")
+    // public ResponseEntity<?> login(LoginRequestDTO loginRequestDTO) {
+    //     String jwtToken = userService.login(loginRequestDTO.getLogin(), loginRequestDTO.getPassword());
+    //     return ResponseEntity.ok(jwtToken);
+    // }
+    //
+    // Sans @RequestBody, Spring ne deserialise pas le corps JSON : il construit un
+    // LoginRequestDTO vide et poursuit sans erreur.
+    // @Valid enforce @NotBlank ajoute dans LoginRequestDTO
+
+    // task2 - JWT implementation - reponse encapsulee dans un DTO.
+    //
+    // return ResponseEntity.ok(jwtToken);
+    //
+    // Renvoyait le token en String brute (text/plain). Renvoie desormais
+    // { "token": "eyJ..." } en JSON.
+
     @PostMapping("/api/login")
-    public ResponseEntity<?> login(LoginRequestDTO loginRequestDTO) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
         String jwtToken = userService.login(loginRequestDTO.getLogin(), loginRequestDTO.getPassword());
-        return ResponseEntity.ok(jwtToken);
+        return ResponseEntity.ok(new LoginResponseDTO(jwtToken));
     }
 
 
