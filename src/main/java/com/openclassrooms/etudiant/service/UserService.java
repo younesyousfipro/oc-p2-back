@@ -5,6 +5,7 @@ import com.openclassrooms.etudiant.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -62,7 +63,13 @@ public class UserService {
 
             return jwtService.generateToken(user.get());
         } else {
-            throw new IllegalArgumentException("Invalid credentials");
+            // task3 - 401 au lieu de 400
+            //
+            // throw new IllegalArgumentException("Invalid credentials");
+            //
+            // Permet au front (etape 3) de distinguer "identifiants refuses" (401, message
+            // a afficher a l'utilisateur) d'une vraie panne (400/500, message technique).
+            throw new BadCredentialsException("Invalid credentials");
         }
     }
 
