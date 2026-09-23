@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -63,7 +64,7 @@ public class SpringSecurityConfig {
     //
     // JwtEncoder : utilise par JwtService pour signer les tokens emis.
     // JwtDecoder : lira et validera les tokens entrants. Inutilise a l'etape 2, il est
-    //   declare des maintenant car c'est lui qui rendra la protection du CRUD triviale
+    //   declare des maintenant car c'est lui qui rendra la protection du CRUD
     //   a l'etape 4 (une seule ligne .oauth2ResourceServer(...) dans la filter chain).
     //
     // La cle est symetrique (HMAC-SHA256) : la meme sert a signer et a verifier.
@@ -96,8 +97,24 @@ public class SpringSecurityConfig {
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/api/register", "/api/login").permitAll()
                         // Others protected routes will be added here.
+                        // task4 - CRUD etudiants : reserve aux agents authentifies.
+                        // Redondant avec anyRequest() juste en dessous, mais explicite : la
+                        // regle se lit dans la config au lieu de se deduire d'un fourre-tout.
+                        .requestMatchers("/api/students/**").authenticated()
                         .anyRequest().authenticated()
                 )
+                // task4 - validation des tokens entrants.
+                //
+                // .anyRequest().authenticated() bloquait deja /api/students, mais aucun
+                // mecanisme ne permettait de s'authentifier : toute requete repondait 401
+                // sans recours. Cette ligne branche le BearerTokenAuthenticationFilter de
+                // Spring, qui lit l'en-tete Authorization, verifie la signature et
+                // l'expiration du JWT via le JwtDecoder declare plus haut, puis alimente le
+                // contexte de securite.
+                //
+                // C'est le filtre qui rejette : StudentController ignore jusqu'a
+                // l'existence de l'authentification.
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 // .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(
                         (request, response, exception) -> {
