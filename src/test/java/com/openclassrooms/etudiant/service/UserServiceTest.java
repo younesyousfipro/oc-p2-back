@@ -24,10 +24,14 @@ public class UserServiceTest {
     private static final String LAST_NAME = "Doe";
     private static final String LOGIN = "LOGIN";
     private static final String PASSWORD = "PASSWORD";
+    private static final String HASHED_PASSWORD = "HASHED_PASSWORD";
+    private static final String TOKEN = "TOKEN";
     @Mock
     private UserRepository userRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private JwtService jwtService;
     @InjectMocks
     private UserService userService;
 
@@ -74,5 +78,28 @@ public class UserServiceTest {
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         verify(userRepository).save(userCaptor.capture());
         assertThat(userCaptor.getValue()).isEqualTo(user);
+    }
+
+    // Connexion reussie : le service retourne le token produit par JwtService.
+    @Test
+    public void test_login() {
+        // GIVEN
+        User user = new User();
+        user.setFirstName(FIRST_NAME);
+        user.setLastName(LAST_NAME);
+        user.setLogin(LOGIN);
+        // Le mot de passe stocke est un hash, distinct de celui que l'utilisateur tape.
+        // Deux valeurs differentes sont indispensables ici : avec une seule, un
+        // matches(password, password) passerait ce test au vert.
+        user.setPassword(HASHED_PASSWORD);
+        when(userRepository.findByLogin(LOGIN)).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(PASSWORD, HASHED_PASSWORD)).thenReturn(true);
+        when(jwtService.generateToken(user)).thenReturn(TOKEN);
+
+        // WHEN
+        String token = userService.login(LOGIN, PASSWORD);
+
+        // THEN
+        assertThat(token).isEqualTo(TOKEN);
     }
 }
