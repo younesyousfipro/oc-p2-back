@@ -31,6 +31,7 @@
 		<mapstruct.version>1.6.3</mapstruct.version>
 		<lombok.version>1.18.32</lombok.version>
 		<testcontainers.version>1.20.0</testcontainers.version>
+		<jacoco.version>0.8.13</jacoco.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -145,6 +146,30 @@
 						<api.version>1.44</api.version>
 					</systemPropertyVariables>
 				</configuration>
+			</plugin>
+			<!-- task-tests - mesure de la couverture de code.
+			     prepare-agent : instrumente les classes avant l'execution des tests.
+			     report : genere le rapport HTML a la fin de la phase test.
+			     Rapport produit dans target/site/jacoco/index.html -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
