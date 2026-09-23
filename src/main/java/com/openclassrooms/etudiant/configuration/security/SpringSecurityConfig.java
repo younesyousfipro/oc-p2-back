@@ -64,7 +64,7 @@ public class SpringSecurityConfig {
     //
     // JwtEncoder : utilise par JwtService pour signer les tokens emis.
     // JwtDecoder : lira et validera les tokens entrants. Inutilise a l'etape 2, il est
-    //   declare des maintenant car c'est lui qui rendra la protection du CRUD triviale
+    //   declare des maintenant car c'est lui qui rendra la protection du CRUD
     //   a l'etape 4 (une seule ligne .oauth2ResourceServer(...) dans la filter chain).
     //
     // La cle est symetrique (HMAC-SHA256) : la meme sert a signer et a verifier.

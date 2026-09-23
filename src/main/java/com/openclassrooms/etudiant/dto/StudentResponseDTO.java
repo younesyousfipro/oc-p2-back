@@ -10,7 +10,7 @@ import lombok.Data;
 // createdAt / updatedAt ne sont volontairement pas exposes : aucune des cinq routes
 // n'en a besoin. Les ajouter ici serait deux lignes si le besoin apparait.
 @Data
-public class StudentDTO {
+public class StudentResponseDTO {
     private Long id;
     private String firstName;
     private String lastName;

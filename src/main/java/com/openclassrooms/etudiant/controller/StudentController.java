@@ -1,6 +1,6 @@
 package com.openclassrooms.etudiant.controller;
 
-import com.openclassrooms.etudiant.dto.StudentDTO;
+import com.openclassrooms.etudiant.dto.StudentResponseDTO;
 import com.openclassrooms.etudiant.dto.StudentRequestDTO;
 import com.openclassrooms.etudiant.service.StudentService;
 import jakarta.validation.Valid;
@@ -31,23 +31,23 @@ public class StudentController {
     private final StudentService studentService;
 
     @PostMapping
-    public ResponseEntity<StudentDTO> create(@Valid @RequestBody StudentRequestDTO studentRequestDTO) {
+    public ResponseEntity<StudentResponseDTO> create(@Valid @RequestBody StudentRequestDTO studentRequestDTO) {
         return new ResponseEntity<>(studentService.create(studentRequestDTO), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<StudentDTO>> findAll() {
+    public ResponseEntity<List<StudentResponseDTO>> findAll() {
         return ResponseEntity.ok(studentService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StudentDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<StudentResponseDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(studentService.findById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<StudentDTO> update(@PathVariable Long id,
-                                             @Valid @RequestBody StudentRequestDTO studentRequestDTO) {
+    public ResponseEntity<StudentResponseDTO> update(@PathVariable Long id,
+                                                     @Valid @RequestBody StudentRequestDTO studentRequestDTO) {
         return ResponseEntity.ok(studentService.update(id, studentRequestDTO));
     }
 

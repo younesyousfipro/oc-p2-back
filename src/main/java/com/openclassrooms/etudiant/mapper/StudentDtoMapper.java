@@ -1,6 +1,6 @@
 package com.openclassrooms.etudiant.mapper;
 
-import com.openclassrooms.etudiant.dto.StudentDTO;
+import com.openclassrooms.etudiant.dto.StudentResponseDTO;
 import com.openclassrooms.etudiant.dto.StudentRequestDTO;
 import com.openclassrooms.etudiant.entities.Student;
 import org.mapstruct.Mapper;
@@ -25,9 +25,9 @@ public interface StudentDtoMapper {
     @Mapping(target = "updatedAt", ignore = true)
     Student toEntity(StudentRequestDTO studentRequestDTO);
 
-    StudentDTO toDto(Student student);
+    StudentResponseDTO toDto(Student student);
 
-    List<StudentDTO> toDtoList(List<Student> students);
+    List<StudentResponseDTO> toDtoList(List<Student> students);
 
     // Modification : ecrase les champs metier d'un Student existant, en preservant son
     // id et ses timestamps. @MappingTarget designe l'objet a modifier plutot qu'a creer.

@@ -1,6 +1,6 @@
 package com.openclassrooms.etudiant.service;
 
-import com.openclassrooms.etudiant.dto.StudentDTO;
+import com.openclassrooms.etudiant.dto.StudentResponseDTO;
 import com.openclassrooms.etudiant.dto.StudentRequestDTO;
 import com.openclassrooms.etudiant.entities.Student;
 import com.openclassrooms.etudiant.mapper.StudentDtoMapper;
@@ -27,8 +27,7 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final StudentDtoMapper studentDtoMapper;
 
-    public StudentDTO create(StudentRequestDTO studentRequestDTO) {
-        Assert.notNull(studentRequestDTO, "Student must not be null");
+    public StudentResponseDTO create(StudentRequestDTO studentRequestDTO) {
         log.info("Creating new student");
 
         if (studentRepository.findByEmail(studentRequestDTO.getEmail()).isPresent()) {
@@ -40,15 +39,15 @@ public class StudentService {
         return studentDtoMapper.toDto(studentRepository.save(student));
     }
 
-    public List<StudentDTO> findAll() {
+    public List<StudentResponseDTO> findAll() {
         return studentDtoMapper.toDtoList(studentRepository.findAll());
     }
 
-    public StudentDTO findById(Long id) {
+    public StudentResponseDTO findById(Long id) {
         return studentDtoMapper.toDto(findEntityById(id));
     }
 
-    public StudentDTO update(Long id, StudentRequestDTO studentRequestDTO) {
+    public StudentResponseDTO update(Long id, StudentRequestDTO studentRequestDTO) {
         Assert.notNull(studentRequestDTO, "Student must not be null");
         log.info("Updating student {}", id);
 
